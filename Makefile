@@ -801,8 +801,12 @@ KBUILD_CFLAGS += $(call cc-option,-fno-delete-null-pointer-checks,)
 # Use make W=1 to enable them (see scripts/Makefile.extrawarn)
 KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
 
-ifeq ($(ld-name),lld)
-LDFLAGS += -O2
+ifdef CONFIG_LTO_CLANG
+KBUILD_LDFLAGS += -O3 --lto-O3
+LDFLAGS += -O3 --lto-O3
+else
+KBUILD_LDFLAGS += -O3
+LDFLAGS += -O3
 endif
 
 # transport MTK_CDEFS ( mtk compile macros ) to .c for compile
