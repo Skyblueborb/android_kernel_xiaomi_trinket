@@ -282,7 +282,7 @@ do_devicecheck() {
     done;
   done;
   if [ ! "$match" ]; then
-    abort " " "Unsupported device. Aborting...";
+    abort " " "+ Unsupported device. Aborting...";
   fi;
 }
 int2ver() {
@@ -318,7 +318,7 @@ do_versioncheck() {
   if [ "$supported" ]; then
     ui_print "$android_ver" " ";
   else
-    abort " " "Unsupported Android version. Aborting...";
+    abort " " "+ Unsupported Android version. Aborting...";
   fi;
 }
 do_levelcheck() {
@@ -466,13 +466,12 @@ if [ -f banner ]; then
 fi;
 
 KERNEL_STRING="$(file_getprop anykernel.sh kernel.string)";
-ui_print "$KERNEL_STRING";
+ui_print "$KERNEL_STRING Installation Script";
 if [ -f version ]; then
   ui_print " ";
   ui_printfile version;
   ui_print " ";
 fi;
-ui_print " " "AnyKernel3 by osm0sis @ xda-developers" " ";
 $BB grep -oE 'AK_BASE.*' META-INF/com/google/android/updater-script >&2;
 ui_print " ";
 
@@ -482,7 +481,7 @@ do_devicecheck;
 do_versioncheck;
 do_levelcheck;
 
-ui_print "Installing...";
+ui_print "+ Flashing $KERNEL_STRING...";
 CORE=$($BB grep -oE 'ak.*core.sh' anykernel.sh);
 [ -f tools/$CORE ] || $BB ln -s $AKHOME/tools/ak*-core.sh $AKHOME/tools/$CORE;
 PATH="$AKHOME/bin:$PATH" home=$AKHOME $BB ash anykernel.sh $2;
@@ -499,4 +498,4 @@ if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
   cleanup;
 fi;
 
-ui_print " " " " "Done!";
+ui_print " " " " "+ Done!";
