@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=Sky Kernel
+kernel.string=ReSky Kernel
 do.devicecheck=1
 do.modules=0
 do.systemless=1
