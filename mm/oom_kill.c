@@ -42,7 +42,6 @@
 #include <linux/init.h>
 #include <linux/mmu_notifier.h>
 #include <linux/memory_hotplug.h>
-#include <linux/show_mem_notifier.h>
 
 #include <asm/tlb.h>
 #include "internal.h"
@@ -1163,7 +1162,6 @@ void add_to_oom_reaper(struct task_struct *p)
 
 	if (__ratelimit(&reaper_rs) && p->signal->oom_score_adj == 0) {
 		show_mem(SHOW_MEM_FILTER_NODES, NULL);
-		show_mem_call_notifiers();
 		if (sysctl_oom_dump_tasks)
 			dump_tasks(NULL, NULL);
 	}
