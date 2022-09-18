@@ -129,3 +129,9 @@ kernel/configs/android-*.cfg
 #Ignoring Android.bp link file
 #
 Android.bp
+
+#
+# Ignoring specific files / directories
+#
+logs.txt
+out
