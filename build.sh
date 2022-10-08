@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PATH=$HOME/Desktop/proton-clang/bin:$PATH
+export PATH=$HOME/toolchains/neutron16/bin:$PATH
 export ARCH=arm64
 export MAKEFLAGS=-j$(nproc --all)
 
@@ -14,7 +14,7 @@ echo "+ ARCH=$ARCH"
 compile() {
     set -x
     make vendor/laurel_sprout-perf_defconfig O=out
-    make -k O=out CC="ccache clang"	\
+    make -k O=out CC="ccache clang"	LD="ld.lld" \
                   CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-
     set +x
 }
