@@ -871,7 +871,7 @@ int dsi_panel_set_backlight(struct dsi_panel *panel, u32 bl_lvl)
 		rc = -ENOTSUPP;
 	}
 
-    if (bl_lvl != 0)  
+    if (bl_lvl != 0)
 		panel->last_bl_lvl = bl_lvl;
 
 	return rc;
@@ -3417,7 +3417,7 @@ int dsi_panel_parse_white_reg_read_configs(struct dsi_panel *panel)
 	return rc;
 }
 
-static bool ufshcd_get_hwlevel()
+static bool ufshcd_get_hwlevel(void)
 {
 	char *dr_mr = NULL;
 	char hwlevel[16]= {0};
