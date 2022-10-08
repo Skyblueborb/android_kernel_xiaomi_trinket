@@ -180,10 +180,6 @@ static inline int LZ4_compressBound(size_t isize)
 int LZ4_compress_default(const char *source, char *dest, int inputSize,
 	int maxOutputSize, void *wrkmem);
 
-/*-************************************************************************
- *	Decompression Functions
- **************************************************************************/
-
 /**
  * LZ4_decompress_fast() - Decompresses data from 'source' into 'dest'
  * @source: source address of the compressed data
@@ -252,5 +248,54 @@ int LZ4_decompress_safe(const char *source, char *dest, int compressedSize,
  */
 int LZ4_compress_HC(const char *src, char *dst, int srcSize, int dstCapacity,
 	int compressionLevel, void *wrkmem);
+
+/*-*********************************************
+ *	Streaming Compression Functions
+ ***********************************************/
+
+/**
+ * LZ4_resetStream() - Init an allocated 'LZ4_stream_t' structure
+ * @LZ4_stream: pointer to the 'LZ4_stream_t' structure
+ *
+ * An LZ4_stream_t structure can be allocated once
+ * and re-used multiple times.
+ * Use this function to init an allocated `LZ4_stream_t` structure
+ * and start a new compression.
+ */
+static __always_inline void LZ4_resetStream(LZ4_stream_t *LZ4_stream);
+
+/**
+ * LZ4_loadDict() - Load a static dictionary into LZ4_stream
+ * @streamPtr: pointer to the LZ4_stream_t
+ * @dictionary: dictionary to load
+ * @dictSize: size of dictionary
+ *
+ * Use this function to load a static dictionary into LZ4_stream.
+ * Any previous data will be forgotten, only 'dictionary'
+ * will remain in memory.
+ * Loading a size of 0 is allowed.
+ *
+ * Return : dictionary size, in bytes (necessarily <= 64 KB)
+ */
+int LZ4_loadDict(LZ4_stream_t *streamPtr, const char *dictionary,
+	int dictSize);
+
+/**
+ * LZ4_saveDict() - Save static dictionary from LZ4_stream
+ * @streamPtr: pointer to the 'LZ4_stream_t' structure
+ * @safeBuffer: buffer to save dictionary to, must be already allocated
+ * @dictSize: size of 'safeBuffer'
+ *
+ * If previously compressed data block is not guaranteed
+ * to remain available at its memory location,
+ * save it into a safer place (char *safeBuffer).
+ * Note : you don't need to call LZ4_loadDict() afterwards,
+ * dictionary is immediately usable, you can therefore call
+ * LZ4_compress_fast_continue().
+ *
+ * Return : saved dictionary size in bytes (necessarily <= dictSize),
+ *	or 0 if error.
+ */
+int LZ4_saveDict(LZ4_stream_t *streamPtr, char *safeBuffer, int dictSize);
 
 #endif
